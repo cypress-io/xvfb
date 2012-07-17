@@ -2,7 +2,7 @@
   "author": "ProxV, Inc. <support@proxv.com> (http://proxv.com)",
   "name": "xvfb",
   "description": "Easily start and stop an X Virtual Frame Buffer from your node apps.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "url": "https://github.com/proxv/node-xvfb.git"
   },

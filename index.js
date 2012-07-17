@@ -11,6 +11,7 @@ function Xvfb(options) {
   this._display = (options.displayNum ? ':' + options.displayNum : null);
   this._reuse = options.reuse;
   this._timeout = options.timeout || 500;
+  this._silent = options.silent;
 }
 
 Xvfb.prototype = {
@@ -139,6 +140,11 @@ Xvfb.prototype = {
       }
     } else {
       this._process = spawn('Xvfb', [ display ]);
+      this._process.stderr.on('data', function(data) {
+        if (!this._silent) {
+          process.stderr.write(data);
+        }
+      }.bind(this));
     }
   },
 

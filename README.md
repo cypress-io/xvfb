@@ -28,10 +28,12 @@ xvfb.start(function(err, xvfbProcess) {
 });
 ```
 
-The Xvfb constructor takes two options:
+The Xvfb constructor takes four options:
 
 * <code>displayNum</code> - the X display to use, defaults to the lowest unused display number >= 99 if <code>reuse</code> is false or 99 if <code>reuse</code> is true.
-* <code>reuse</code> - whether to reuse an existing Xvfb instance if it already exists on the X display referenced by displayNum
+* <code>reuse</code> - whether to reuse an existing Xvfb instance if it already exists on the X display referenced by displayNum.
+* <code>timeout</code> - number of milliseconds to wait when starting Xvfb before assuming it failed to start, defaults to 500.
+* <code>silent</code> - don't pipe Xvfb stderr to the process's stderr.
 
 ### Thanks to
 
