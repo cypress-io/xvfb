@@ -6,11 +6,23 @@ node-xvfb: easily start and stop an X Virtual Frame Buffer from your node apps.
 ```javascript
 var Xvfb = require('xvfb');
 var xvfb = new Xvfb();
-xvfb.start();
+xvfb.startSync();
 
 // code that uses the virtual frame buffer here
 
-xvfb.stop();
+xvfb.stopSync();
+```
+
+or:
+
+
+```javascript
+var Xvfb = require('xvfb');
+var xvfb = new Xvfb();
+xvfb.start(function(err, xvfbProcess) {
+  // code that uses the virtual frame buffer here
+  xvfb.stop();
+});
 ```
 
 The Xvfb constructor takes two options:
@@ -20,8 +32,8 @@ The Xvfb constructor takes two options:
 
 ### Thanks to
 
-* @kelsa for https://github.com/kesla/node-headless
-* @leonid-shevtsov for https://github.com/leonid-shevtsov/headless
+* [kesla](https://github.com/kesla) for https://github.com/kesla/node-headless
+* [leonid-shevtsov](https://github.com/leonid-shevtsov) for https://github.com/leonid-shevtsov/headless
 
-Both of which served as inspiration for this package.
+both of which served as inspiration for this package.
 
