@@ -11,6 +11,7 @@ xvfb.startSync();
 // code that uses the virtual frame buffer here
 
 xvfb.stopSync();
+// the Xvfb is stopped
 ```
 
 or:
@@ -21,7 +22,9 @@ var Xvfb = require('xvfb');
 var xvfb = new Xvfb();
 xvfb.start(function(err, xvfbProcess) {
   // code that uses the virtual frame buffer here
-  xvfb.stop();
+  xvfb.stop(function(err) {
+    // the Xvfb is stopped
+  });
 });
 ```
 
