@@ -117,7 +117,7 @@ Xvfb.prototype = {
       do {
         displayNum++;
         lockFile = this._lockFile(displayNum);
-      } while (!this._reuse && path.existsSync(lockFile));
+      } while (!this._reuse && fs.existsSync(lockFile));
       this._display = ':' + displayNum;
     }
     return this._display;
