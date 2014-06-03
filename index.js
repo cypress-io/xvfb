@@ -12,6 +12,7 @@ function Xvfb(options) {
   this._reuse = options.reuse;
   this._timeout = options.timeout || 500;
   this._silent = options.silent;
+  this._xvfb_args = options.xvfb_args || [];
 }
 
 Xvfb.prototype = {
@@ -139,7 +140,7 @@ Xvfb.prototype = {
         throw new Error('Display ' + display + ' is already in use and the "reuse" option is false.');
       }
     } else {
-      this._process = spawn('Xvfb', [ display ]);
+      this._process = spawn('Xvfb', [ display ].concat(this._xvfb_args));
       this._process.stderr.on('data', function(data) {
         if (!this._silent) {
           process.stderr.write(data);

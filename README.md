@@ -34,6 +34,7 @@ The Xvfb constructor takes four options:
 * <code>reuse</code> - whether to reuse an existing Xvfb instance if it already exists on the X display referenced by displayNum.
 * <code>timeout</code> - number of milliseconds to wait when starting Xvfb before assuming it failed to start, defaults to 500.
 * <code>silent</code> - don't pipe Xvfb stderr to the process's stderr.
+* <code>xvfb_args</code> - Extra arguments to pass to `Xvfb`.
 
 ### Thanks to
 
