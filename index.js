@@ -23,8 +23,12 @@ Xvfb.prototype = {
       this._setDisplayEnvVariable();
 
       fs.exists(lockFile, function(exists) {
+        var didSpawnFail = false;
         try {
-          this._spawnProcess(exists);
+          this._spawnProcess(exists, function(e) {
+            didSpawnFail = true;
+            if (cb) cb(e);
+          });
         } catch (e) {
           return cb && cb(e);
         }
@@ -32,6 +36,11 @@ Xvfb.prototype = {
         var totalTime = 0;
         (function checkIfStarted() {
           fs.exists(lockFile, function(exists) {
+            if (didSpawnFail) {
+              // When spawn fails, the callback will immediately be called.
+              // So we don't have to check whether the lock file exists.
+              return;
+            }
             if (exists) {
               return cb && cb(null, this._process);
             } else {
@@ -53,7 +62,11 @@ Xvfb.prototype = {
       var lockFile = this._lockFile();
 
       this._setDisplayEnvVariable();
-      this._spawnProcess(fs.existsSync(lockFile));
+      this._spawnProcess(fs.existsSync(lockFile), function(e) {
+        // Ignore async spawn error. While usleep is active, tasks on the
+        // event loop cannot be executed, so spawn errors will never be
+        // received during the startSync call.
+      });
 
       var totalTime = 0;
       while (!fs.existsSync(lockFile)) {
@@ -133,7 +146,7 @@ Xvfb.prototype = {
     process.env.DISPLAY = this._oldDisplay;
   },
 
-  _spawnProcess: function(lockFileExists) {
+  _spawnProcess: function(lockFileExists, onAsyncSpawnError) {
     var display = this.display();
     if (lockFileExists) {
       if (!this._reuse) {
@@ -146,6 +159,10 @@ Xvfb.prototype = {
           process.stderr.write(data);
         }
       }.bind(this));
+      // Bind an error listener to prevent an error from crashing node.
+      this._process.once('error', function(e) {
+        onAsyncSpawnError(e);
+      });
     }
   },
 
