@@ -7,7 +7,7 @@
     "url": "https://github.com/proxv/node-xvfb.git"
   },
   "dependencies": {
-    "sleep": "1.1.x"
+    "sleep": "2.0.x"
   },
   "devDependencies": {},
   "optionalDependencies": {},
