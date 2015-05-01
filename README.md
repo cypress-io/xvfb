@@ -40,6 +40,6 @@ The Xvfb constructor takes four options:
 
 * [kesla](https://github.com/kesla) for https://github.com/kesla/node-headless
 * [leonid-shevtsov](https://github.com/leonid-shevtsov) for https://github.com/leonid-shevtsov/headless
+* [paulbaumgart](https://github.com/paulbaumgart) for creating the initial version of this package.
 
 both of which served as inspiration for this package.
-
