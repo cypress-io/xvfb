@@ -6,20 +6,6 @@ node-xvfb: easily start and stop an X Virtual Frame Buffer from your node apps.
 ```javascript
 var Xvfb = require('xvfb');
 var xvfb = new Xvfb();
-xvfb.startSync();
-
-// code that uses the virtual frame buffer here
-
-xvfb.stopSync();
-// the Xvfb is stopped
-```
-
-or:
-
-
-```javascript
-var Xvfb = require('xvfb');
-var xvfb = new Xvfb();
 xvfb.start(function(err, xvfbProcess) {
   // code that uses the virtual frame buffer here
   xvfb.stop(function(err) {
