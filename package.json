@@ -8,7 +8,7 @@
   ],
   "description": "Easily start and stop an X Virtual Frame Buffer from your node apps.",
   "repository": {
-    "url": "https://github.com/cypress-io/node-xvfb"
+    "url": "https://github.com/cypress-io/xvfb"
   },
   "dependencies": {},
   "license": "MIT",
