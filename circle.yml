@@ -6,4 +6,5 @@ deployment:
   prod:
     branch: master
     commands:
-      - npm run semantic-release
+      # not every commit is going to be published
+      - npm_config_loglevel=verbose npm run semantic-release || true
