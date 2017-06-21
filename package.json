@@ -1,7 +1,7 @@
 {
   "name": "@cypress/xvfb",
   "version": "0.0.0-development",
-  "public": true,
+  "private": false,
   "author": "Rob Wu <rob@robwu.nl> (https://robwu.nl)",
   "contributors": [
     "ProxV, Inc. <support@proxv.com> (http://proxv.com)"
@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "test": "standard --fix --verbose *.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release pre && npm publish --access public && semantic-release post",
     "commit": "commit-wizard"
   },
   "devDependencies": {
