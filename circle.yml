@@ -6,4 +6,4 @@ deployment:
   prod:
     branch: master
     commands:
-      - echo "finished the tests"
+      - npm run semantic-release
