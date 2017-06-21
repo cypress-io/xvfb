@@ -1,0 +1,4 @@
+test:
+  post:
+    - echo "finished the tests"
+    # - npm run semantic-release

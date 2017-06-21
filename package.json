@@ -1,14 +1,22 @@
 {
+  "name": "@cypress/xvfb",
   "author": "Rob Wu <rob@robwu.nl> (https://robwu.nl)",
   "contributors": [
     "ProxV, Inc. <support@proxv.com> (http://proxv.com)"
   ],
-  "name": "xvfb",
   "description": "Easily start and stop an X Virtual Frame Buffer from your node apps.",
-  "version": "0.3.0",
+  "version": "0.0.0-development",
   "repository": {
     "url": "https://github.com/cypress-io/node-xvfb"
   },
   "dependencies": {},
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "standard --fix --verbose *.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "devDependencies": {
+    "semantic-release": "^6.3.6",
+    "standard": "^10.0.2"
+  }
 }
