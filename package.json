@@ -13,10 +13,26 @@
   "license": "MIT",
   "scripts": {
     "test": "standard --fix --verbose *.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "commit": "commit-wizard"
   },
   "devDependencies": {
+    "pre-git": "^3.15.0",
     "semantic-release": "^6.3.6",
+    "simple-commit-message": "^3.0.2",
     "standard": "^10.0.2"
+  },
+  "release": {
+    "analyzeCommits": "simple-commit-message"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": "simple",
+      "pre-commit": ["npm test"],
+      "pre-push": [],
+      "post-commit": [],
+      "post-checkout": [],
+      "post-merge": []
+    }
   }
 }
