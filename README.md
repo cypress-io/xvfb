@@ -1,4 +1,4 @@
-node-xvfb: easily start and stop an X Virtual Frame Buffer from your node apps.
+@cypress/xvfb: easily start and stop an X Virtual Frame Buffer from your node apps.
 -----
 
 [![CircleCI](https://circleci.com/gh/cypress-io/node-xvfb.svg?style=svg)](https://circleci.com/gh/cypress-io/node-xvfb)
@@ -26,6 +26,8 @@ The Xvfb constructor takes four options:
 * <code>xvfb_args</code> - Extra arguments to pass to `Xvfb`.
 
 ### Thanks to
+
+Forked from [node-xvfb](https://github.com/Rob--W/node-xvfb)
 
 * [kesla](https://github.com/kesla) for https://github.com/kesla/node-headless
 * [leonid-shevtsov](https://github.com/leonid-shevtsov) for https://github.com/leonid-shevtsov/headless
