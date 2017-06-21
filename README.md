@@ -1,6 +1,8 @@
 node-xvfb: easily start and stop an X Virtual Frame Buffer from your node apps.
 -----
 
+[![CircleCI](https://circleci.com/gh/cypress-io/node-xvfb.svg?style=svg)](https://circleci.com/gh/cypress-io/node-xvfb)
+
 ### Usage
 
 ```javascript
