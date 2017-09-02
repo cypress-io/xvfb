@@ -101,7 +101,15 @@ Xvfb.prototype = {
   },
 
   _restoreDisplayEnvVariable: function () {
-    process.env.DISPLAY = this._oldDisplay
+    // https://github.com/cypress-io/xvfb/issues/1
+    // only reset truthy backed' up values
+    if (this._oldDisplay) {
+      process.env.DISPLAY = this._oldDisplay
+    } else {
+      // else delete the values to get back
+      // to undefined
+      delete process.env.DISPLAY
+    }
   },
 
   _spawnProcess: function (lockFileExists, onAsyncSpawnError) {
