@@ -10,7 +10,9 @@
   "repository": {
     "url": "https://github.com/cypress-io/xvfb"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash.once": "^4.1.1"
+  },
   "license": "MIT",
   "scripts": {
     "test": "eslint **/*.js && mocha",

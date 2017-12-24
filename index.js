@@ -1,28 +1,30 @@
 /* eslint-disable node/no-deprecated-api */
-var fs = require('fs')
-var path = require('path')
-var spawn = require('child_process').spawn
+const once = require('lodash.once')
+const fs = require('fs')
+const path = require('path')
+const spawn = require('child_process').spawn
 fs.exists = fs.exists || path.exists
 fs.existsSync = fs.existsSync || path.existsSync
 
 function Xvfb (options) {
   options = options || {}
-  this._display = (options.displayNum ? ':' + options.displayNum : null)
+  this._display = (options.displayNum ? `:${options.displayNum}` : null)
   this._reuse = options.reuse
   this._timeout = options.timeout || 500
   this._silent = options.silent
+  this._onStderrData = options.onStderrData || (() => {})
   this._xvfb_args = options.xvfb_args || []
 }
 
 Xvfb.prototype = {
-  start: function (cb) {
+  start (cb) {
     if (!this._process) {
-      var lockFile = this._lockFile()
+      let lockFile = this._lockFile()
 
       this._setDisplayEnvVariable()
 
       fs.exists(lockFile, function (exists) {
-        var didSpawnFail = false
+        let didSpawnFail = false
         try {
           this._spawnProcess(exists, function (e) {
             didSpawnFail = true
@@ -32,7 +34,7 @@ Xvfb.prototype = {
           return cb && cb(e)
         }
 
-        var totalTime = 0;
+        let totalTime = 0;
         (function checkIfStarted () {
           fs.exists(lockFile, function (exists) {
             if (didSpawnFail) {
@@ -56,13 +58,13 @@ Xvfb.prototype = {
     }
   },
 
-  stop: function (cb) {
+  stop (cb) {
     if (this._process) {
       this._killProcess()
       this._restoreDisplayEnvVariable()
 
-      var lockFile = this._lockFile()
-      var totalTime = 0;
+      let lockFile = this._lockFile()
+      let totalTime = 0;
       (function checkIfStopped () {
         fs.exists(lockFile, function (exists) {
           if (!exists) {
@@ -82,25 +84,26 @@ Xvfb.prototype = {
     }
   },
 
-  display: function () {
+  display () {
     if (!this._display) {
-      var displayNum = 98
-      var lockFile
+      let displayNum = 98
+      let lockFile
       do {
         displayNum++
         lockFile = this._lockFile(displayNum)
       } while (!this._reuse && fs.existsSync(lockFile))
-      this._display = ':' + displayNum
+      this._display = `:${displayNum}`
     }
+
     return this._display
   },
 
-  _setDisplayEnvVariable: function () {
+  _setDisplayEnvVariable () {
     this._oldDisplay = process.env.DISPLAY
     process.env.DISPLAY = this.display()
   },
 
-  _restoreDisplayEnvVariable: function () {
+  _restoreDisplayEnvVariable () {
     // https://github.com/cypress-io/xvfb/issues/1
     // only reset truthy backed' up values
     if (this._oldDisplay) {
@@ -112,18 +115,24 @@ Xvfb.prototype = {
     }
   },
 
-  _spawnProcess: function (lockFileExists, onAsyncSpawnError) {
-    var display = this.display()
+  _spawnProcess (lockFileExists, onAsyncSpawnError) {
+    let display = this.display()
     if (lockFileExists) {
       if (!this._reuse) {
-        throw new Error('Display ' + display + ' is already in use and the "reuse" option is false.')
+        throw new Error(`Display ${display} is already in use and the "reuse" option is false.`)
       }
     } else {
-      this._process = spawn('Xvfb', [ display ].concat(this._xvfb_args))
+      const stderr = []
+
+      this._process = spawn('Xvfb', [display].concat(this._xvfb_args))
       this._process.stderr.on('data', function (data) {
-        if (!this._silent) {
-          process.stderr.write(data)
+        stderr.push(data.toString())
+
+        if (this._silent) {
+          return
         }
+
+        this._onStderrData(data)
       }.bind(this))
       // Bind an error listener to prevent an error from crashing node.
       this._process.once('error', function (e) {
@@ -132,15 +141,15 @@ Xvfb.prototype = {
     }
   },
 
-  _killProcess: function () {
+  _killProcess () {
     this._process.kill()
     this._process = null
   },
 
-  _lockFile: function (displayNum) {
+  _lockFile (displayNum) {
     displayNum = displayNum || this.display().toString().replace(/^:/, '')
-    return '/tmp/.X' + displayNum + '-lock'
-  }
+    return `/tmp/.X${displayNum}-lock`
+  },
 }
 
 module.exports = Xvfb
