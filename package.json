@@ -13,13 +13,17 @@
   "dependencies": {},
   "license": "MIT",
   "scripts": {
-    "test": "standard --fix --verbose *.js && mocha",
+    "test": "eslint **/*.js && mocha",
+    "test-watch": "mocha watch",
     "semantic-release": "semantic-release pre && npm publish --access public && semantic-release post",
     "commit": "commit-wizard"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "condition-circle": "^1.5.0",
+    "eslint": "^4.13.1",
+    "eslint-plugin-cypress-dev": "^1.1.2",
+    "eslint-plugin-mocha": "^4.11.0",
     "mocha": "^3.5.0",
     "pre-git": "^3.15.0",
     "semantic-release": "^6.3.6",
