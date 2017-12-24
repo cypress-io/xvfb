@@ -116,6 +116,8 @@ Xvfb.prototype = {
   },
 
   _spawnProcess (lockFileExists, onAsyncSpawnError) {
+    const onError = once(onAsyncSpawnError)
+
     let display = this.display()
     if (lockFileExists) {
       if (!this._reuse) {
@@ -134,9 +136,18 @@ Xvfb.prototype = {
 
         this._onStderrData(data)
       }.bind(this))
+
+      this._process.on('close', (code) => {
+        if (code !== 0) {
+          const err = new Error(`${stderr.join('\n')}`)
+          err.nonZeroExitCode = true
+          onError(err)
+        }
+      })
+
       // Bind an error listener to prevent an error from crashing node.
       this._process.once('error', function (e) {
-        onAsyncSpawnError(e)
+        onError(e)
       })
     }
   },
