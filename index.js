@@ -1,4 +1,7 @@
 /* eslint-disable node/no-deprecated-api */
+
+'use strict'
+
 const once = require('lodash.once')
 const fs = require('fs')
 const path = require('path')
