@@ -21,15 +21,17 @@ function Xvfb (options) {
 
 Xvfb.prototype = {
   start (cb) {
-    if (!this._process) {
-      let lockFile = this._lockFile()
+    let self = this
 
-      this._setDisplayEnvVariable()
+    if (!self._process) {
+      let lockFile = self._lockFile()
+
+      self._setDisplayEnvVariable()
 
       fs.exists(lockFile, function (exists) {
         let didSpawnFail = false
         try {
-          this._spawnProcess(exists, function (e) {
+          self._spawnProcess(exists, function (e) {
             didSpawnFail = true
             if (cb) cb(e)
           })
@@ -46,38 +48,40 @@ Xvfb.prototype = {
               return
             }
             if (exists) {
-              return cb && cb(null, this._process)
+              return cb && cb(null, self._process)
             } else {
               totalTime += 10
-              if (totalTime > this._timeout) {
+              if (totalTime > self._timeout) {
                 return cb && cb(new Error('Could not start Xvfb.'))
               } else {
-                setTimeout(checkIfStarted.bind(this), 10)
+                setTimeout(checkIfStarted, 10)
               }
             }
           })
         })()
-      }.bind(this))
+      })
     }
   },
 
   stop (cb) {
-    if (this._process) {
-      this._killProcess()
-      this._restoreDisplayEnvVariable()
+    let self = this
 
-      let lockFile = this._lockFile()
+    if (self._process) {
+      self._killProcess()
+      self._restoreDisplayEnvVariable()
+
+      let lockFile = self._lockFile()
       let totalTime = 0;
       (function checkIfStopped () {
         fs.exists(lockFile, function (exists) {
           if (!exists) {
-            return cb && cb(null, this._process)
+            return cb && cb(null, self._process)
           } else {
             totalTime += 10
-            if (totalTime > this._timeout) {
+            if (totalTime > self._timeout) {
               return cb && cb(new Error('Could not stop Xvfb.'))
             } else {
-              setTimeout(checkIfStopped.bind(this), 10)
+              setTimeout(checkIfStopped, 10)
             }
           }
         })
@@ -119,28 +123,30 @@ Xvfb.prototype = {
   },
 
   _spawnProcess (lockFileExists, onAsyncSpawnError) {
+    let self = this
+
     const onError = once(onAsyncSpawnError)
 
-    let display = this.display()
+    let display = self.display()
     if (lockFileExists) {
-      if (!this._reuse) {
+      if (!self._reuse) {
         throw new Error(`Display ${display} is already in use and the "reuse" option is false.`)
       }
     } else {
       const stderr = []
 
-      this._process = spawn('Xvfb', [display].concat(this._xvfb_args))
-      this._process.stderr.on('data', function (data) {
+      self._process = spawn('Xvfb', [display].concat(self._xvfb_args))
+      self._process.stderr.on('data', function (data) {
         stderr.push(data.toString())
 
-        if (this._silent) {
+        if (self._silent) {
           return
         }
 
-        this._onStderrData(data)
-      }.bind(this))
+        self._onStderrData(data)
+      })
 
-      this._process.on('close', (code) => {
+      self._process.on('close', (code) => {
         if (code !== 0) {
           const err = new Error(`${stderr.join('\n')}`)
           err.nonZeroExitCode = true
@@ -149,7 +155,7 @@ Xvfb.prototype = {
       })
 
       // Bind an error listener to prevent an error from crashing node.
-      this._process.once('error', function (e) {
+      self._process.once('error', function (e) {
         onError(e)
       })
     }
