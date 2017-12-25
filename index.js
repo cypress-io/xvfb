@@ -13,7 +13,7 @@ function Xvfb (options) {
   options = options || {}
   this._display = (options.displayNum ? `:${options.displayNum}` : null)
   this._reuse = options.reuse
-  this._timeout = options.timeout || 500
+  this._timeout = options.timeout || 2000
   this._silent = options.silent
   this._onStderrData = options.onStderrData || (() => {})
   this._xvfb_args = options.xvfb_args || []
