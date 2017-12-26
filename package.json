@@ -21,7 +21,7 @@
   "scripts": {
     "test": "eslint **/*.js && mocha",
     "test-watch": "mocha watch",
-    "semantic-release": "semantic-release pre && npm publish --access public && semantic-release post",
+    "semantic-release": "semantic-action pre && npm publish --access public && semantic-action post",
     "commit": "commit-wizard"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
     "mocha": "^3.5.0",
     "npm-utils": "^2.0.0",
     "pre-git": "^3.15.0",
-    "semantic-release": "7.0.2",
+    "semantic-action": "^1.1.0",
     "simple-commit-message": "^3.0.2"
   },
   "release": {
