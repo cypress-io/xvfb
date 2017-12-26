@@ -29,8 +29,7 @@
     "mocha": "^3.5.0",
     "pre-git": "^3.15.0",
     "semantic-release": "^6.3.6",
-    "simple-commit-message": "^3.0.2",
-    "standard": "^10.0.2"
+    "simple-commit-message": "^3.0.2"
   },
   "release": {
     "verifyConditions": "condition-circle",
