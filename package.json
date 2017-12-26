@@ -7,8 +7,12 @@
     "ProxV, Inc. <support@proxv.com> (http://proxv.com)"
   ],
   "description": "Easily start and stop an X Virtual Frame Buffer from your node apps.",
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
   "repository": {
-    "url": "https://github.com/cypress-io/xvfb"
+    "type": "git",
+    "url": "https://github.com/cypress-io/xvfb.git"
   },
   "dependencies": {
     "lodash.once": "^4.1.1"
@@ -22,7 +26,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "condition-circle": "^1.5.0",
+    "condition-circle": "^1.6.0",
     "eslint": "^4.13.1",
     "eslint-plugin-cypress-dev": "^1.1.2",
     "eslint-plugin-mocha": "^4.11.0",
