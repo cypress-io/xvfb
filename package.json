@@ -33,8 +33,7 @@
     "simple-commit-message": "^3.0.2"
   },
   "release": {
-    "verifyConditions": "condition-circle",
-    "analyzeCommits": "simple-commit-message"
+    "verifyConditions": "condition-circle"
   },
   "config": {
     "pre-git": {
