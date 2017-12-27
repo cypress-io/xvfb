@@ -11,7 +11,7 @@ const spawn = require('child_process').spawn
 fs.exists = fs.exists || path.exists
 fs.existsSync = fs.existsSync || path.existsSync
 
-function Xvfb (options) {
+function Xvfb(options) {
   options = options || {}
   this._display = options.displayNum ? `:${options.displayNum}` : null
   this._reuse = options.reuse
@@ -22,7 +22,7 @@ function Xvfb (options) {
 }
 
 Xvfb.prototype = {
-  start (cb) {
+  start(cb) {
     let self = this
 
     if (!self._process) {
@@ -30,10 +30,10 @@ Xvfb.prototype = {
 
       self._setDisplayEnvVariable()
 
-      fs.exists(lockFile, function (exists) {
+      fs.exists(lockFile, function(exists) {
         let didSpawnFail = false
         try {
-          self._spawnProcess(exists, function (e) {
+          self._spawnProcess(exists, function(e) {
             debug('XVFB spawn failed')
             debug(e)
             didSpawnFail = true
@@ -46,9 +46,9 @@ Xvfb.prototype = {
         }
 
         let totalTime = 0
-        ;(function checkIfStarted () {
+        ;(function checkIfStarted() {
           debug('checking if started by looking for the lock file', lockFile)
-          fs.exists(lockFile, function (exists) {
+          fs.exists(lockFile, function(exists) {
             if (didSpawnFail) {
               // When spawn fails, the callback will immediately be called.
               // So we don't have to check whether the lock file exists.
@@ -66,7 +66,9 @@ Xvfb.prototype = {
                   totalTime,
                   self._timeout
                 )
-                return cb && cb(new Error('Could not start Xvfb.'))
+                const err = new Error('Could not start Xvfb.')
+                err.timedOut = true
+                return cb && cb(err)
               } else {
                 setTimeout(checkIfStarted, 10)
               }
@@ -77,7 +79,7 @@ Xvfb.prototype = {
     }
   },
 
-  stop (cb) {
+  stop(cb) {
     let self = this
 
     if (self._process) {
@@ -87,8 +89,8 @@ Xvfb.prototype = {
       let lockFile = self._lockFile()
       debug('lock file', lockFile)
       let totalTime = 0
-      ;(function checkIfStopped () {
-        fs.exists(lockFile, function (exists) {
+      ;(function checkIfStopped() {
+        fs.exists(lockFile, function(exists) {
           if (!exists) {
             debug('lock file %s not found when stopping', lockFile)
             return cb && cb(null, self._process)
@@ -101,7 +103,9 @@ Xvfb.prototype = {
                 totalTime,
                 self._timeout
               )
-              return cb && cb(new Error('Could not stop Xvfb.'))
+              const err = new Error('Could not stop Xvfb.')
+              err.timedOut = true
+              return cb && cb(err)
             } else {
               setTimeout(checkIfStopped, 10)
             }
@@ -113,7 +117,7 @@ Xvfb.prototype = {
     }
   },
 
-  display () {
+  display() {
     if (!this._display) {
       let displayNum = 98
       let lockFile
@@ -127,12 +131,12 @@ Xvfb.prototype = {
     return this._display
   },
 
-  _setDisplayEnvVariable () {
+  _setDisplayEnvVariable() {
     this._oldDisplay = process.env.DISPLAY
     process.env.DISPLAY = this.display()
   },
 
-  _restoreDisplayEnvVariable () {
+  _restoreDisplayEnvVariable() {
     // https://github.com/cypress-io/xvfb/issues/1
     // only reset truthy backed' up values
     if (this._oldDisplay) {
@@ -144,7 +148,7 @@ Xvfb.prototype = {
     }
   },
 
-  _spawnProcess (lockFileExists, onAsyncSpawnError) {
+  _spawnProcess(lockFileExists, onAsyncSpawnError) {
     let self = this
 
     const onError = once(onAsyncSpawnError)
@@ -163,7 +167,7 @@ Xvfb.prototype = {
       debug('all Xvfb arguments', allArguments)
 
       self._process = spawn('Xvfb', allArguments)
-      self._process.stderr.on('data', function (data) {
+      self._process.stderr.on('data', function(data) {
         stderr.push(data.toString())
 
         if (self._silent) {
@@ -187,7 +191,7 @@ Xvfb.prototype = {
       })
 
       // Bind an error listener to prevent an error from crashing node.
-      self._process.once('error', function (e) {
+      self._process.once('error', function(e) {
         debug('xvfb spawn process error')
         debug(e)
         onError(e)
@@ -195,17 +199,17 @@ Xvfb.prototype = {
     }
   },
 
-  _killProcess () {
+  _killProcess() {
     this._process.kill()
     this._process = null
   },
 
-  _lockFile (displayNum) {
+  _lockFile(displayNum) {
     displayNum =
       displayNum ||
       this.display()
-      .toString()
-      .replace(/^:/, '')
+        .toString()
+        .replace(/^:/, '')
     return `/tmp/.X${displayNum}-lock`
   },
 }

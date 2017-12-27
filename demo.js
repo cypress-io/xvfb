@@ -12,6 +12,7 @@ if (debugXvfb.enabled) {
 function startStop() {
   const xvfb = Promise.promisifyAll(
     new Xvfb({
+      timeout: 5000,
       onStderrData(data) {
         if (debugXvfb.enabled) {
           debugXvfb(data.toString())
@@ -19,8 +20,18 @@ function startStop() {
       },
     })
   )
-  return xvfb
-    .startAsync()
+
+  const retryStart = (i = 0) => {
+    return xvfb.startAsync().catch({ timedOut: true }, e => {
+      console.log('Timed out', e.message)
+      if (i < 10) {
+        return retryStart(i + 1)
+      }
+      throw e
+    })
+  }
+
+  return retryStart()
     .catch(err => {
       console.error('error starting XVFB')
       console.error(err)
