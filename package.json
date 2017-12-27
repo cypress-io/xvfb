@@ -22,7 +22,8 @@
     "test": "eslint **/*.js && mocha",
     "test-watch": "mocha watch",
     "semantic-release": "semantic-action pre && npm publish --access public && semantic-action post",
-    "commit": "commit-wizard"
+    "commit": "commit-wizard",
+    "demo": "node ./demo"
   },
   "devDependencies": {
     "chai": "^4.1.2",
