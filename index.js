@@ -173,10 +173,11 @@ Xvfb.prototype = {
         self._onStderrData(data)
       })
 
-      self._process.on('close', (code) => {
+      self._process.on('close', (code, signal) => {
         if (code !== 0) {
           const str = stderr.join('\n')
           debug('xvfb closed with error code', code)
+          debug('after receiving signal %s', signal)
           debug('and stderr output')
           debug(str)
           const err = new Error(str)

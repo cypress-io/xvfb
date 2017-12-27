@@ -28,6 +28,9 @@ function startStop () {
   })
   .then((xvfbProcess) => {
     console.log('XVFB started', xvfbProcess.pid)
+  })
+  .delay(100)
+  .then(() => {
     return xvfb.stopAsync()
   })
   .then(() => {
