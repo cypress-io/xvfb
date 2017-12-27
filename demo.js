@@ -2,9 +2,23 @@
 
 const Xvfb = require('.')
 const Promise = require('bluebird')
+// debug log messages from XVFB process
+const debugXvfb = require('debug')('xvfb-process')
+
+if (debugXvfb.enabled) {
+  console.log('XVFB process error stream enabled')
+}
 
 function startStop () {
-  const xvfb = Promise.promisifyAll(new Xvfb())
+  const xvfb = Promise.promisifyAll(
+    new Xvfb({
+      onStderrData (data) {
+        if (debugXvfb.enabled) {
+          debugXvfb(data.toString())
+        }
+      },
+    })
+  )
   return xvfb
   .startAsync()
   .catch((err) => {

@@ -2,6 +2,7 @@
 
 'use strict'
 
+// our debug log messages
 const debug = require('debug')('xvfb')
 const once = require('lodash.once')
 const fs = require('fs')
