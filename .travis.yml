@@ -26,3 +26,27 @@ jobs:
       <<: *defaults
     - stage: test
       <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
+    - stage: test
+      <<: *defaults
