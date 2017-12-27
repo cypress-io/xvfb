@@ -18,8 +18,10 @@
     "commit": "commit-wizard"
   },
   "devDependencies": {
+    "bluebird": "^3.5.1",
     "chai": "^4.1.2",
     "condition-circle": "^1.5.0",
+    "debug": "^3.1.0",
     "mocha": "^3.5.0",
     "pre-git": "^3.15.0",
     "semantic-release": "^6.3.6",
