@@ -2,6 +2,7 @@
 
 'use strict'
 
+const debug = require('debug')('xvfb')
 const once = require('lodash.once')
 const fs = require('fs')
 const path = require('path')
@@ -11,7 +12,7 @@ fs.existsSync = fs.existsSync || path.existsSync
 
 function Xvfb (options) {
   options = options || {}
-  this._display = (options.displayNum ? `:${options.displayNum}` : null)
+  this._display = options.displayNum ? `:${options.displayNum}` : null
   this._reuse = options.reuse
   this._timeout = options.timeout || 2000
   this._silent = options.silent
@@ -39,8 +40,9 @@ Xvfb.prototype = {
           return cb && cb(e)
         }
 
-        let totalTime = 0;
-        (function checkIfStarted () {
+        let totalTime = 0
+        ;(function checkIfStarted () {
+          debug('checking if started by looking at the lock file', lockFile)
           fs.exists(lockFile, function (exists) {
             if (didSpawnFail) {
               // When spawn fails, the callback will immediately be called.
@@ -71,8 +73,9 @@ Xvfb.prototype = {
       self._restoreDisplayEnvVariable()
 
       let lockFile = self._lockFile()
-      let totalTime = 0;
-      (function checkIfStopped () {
+      debug('lock file', lockFile)
+      let totalTime = 0
+      ;(function checkIfStopped () {
         fs.exists(lockFile, function (exists) {
           if (!exists) {
             return cb && cb(null, self._process)
@@ -130,7 +133,9 @@ Xvfb.prototype = {
     let display = self.display()
     if (lockFileExists) {
       if (!self._reuse) {
-        throw new Error(`Display ${display} is already in use and the "reuse" option is false.`)
+        throw new Error(
+          `Display ${display} is already in use and the "reuse" option is false.`
+        )
       }
     } else {
       const stderr = []
@@ -167,7 +172,11 @@ Xvfb.prototype = {
   },
 
   _lockFile (displayNum) {
-    displayNum = displayNum || this.display().toString().replace(/^:/, '')
+    displayNum =
+      displayNum ||
+      this.display()
+      .toString()
+      .replace(/^:/, '')
     return `/tmp/.X${displayNum}-lock`
   },
 }

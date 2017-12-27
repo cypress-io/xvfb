@@ -26,6 +26,10 @@ The Xvfb constructor takes four options:
 * <code>silent</code> - don't pipe Xvfb stderr to the process's stderr.
 * <code>xvfb_args</code> - Extra arguments to pass to `Xvfb`.
 
+### Debugging
+
+Run with `DEBUG=xvfb` environment variable to see debug messages
+
 ### Thanks to
 
 Forked from [node-xvfb](https://github.com/Rob--W/node-xvfb)
