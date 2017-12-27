@@ -78,10 +78,17 @@ Xvfb.prototype = {
       ;(function checkIfStopped () {
         fs.exists(lockFile, function (exists) {
           if (!exists) {
+            debug('lock file %s not found when stopping', lockFile)
             return cb && cb(null, self._process)
           } else {
             totalTime += 10
             if (totalTime > self._timeout) {
+              debug('lock file %s is still there', lockFile)
+              debug(
+                'after waiting for %d ms (timeout %d ms)',
+                totalTime,
+                self._timeout
+              )
               return cb && cb(new Error('Could not stop Xvfb.'))
             } else {
               setTimeout(checkIfStopped, 10)
