@@ -27,6 +27,7 @@ function startStop () {
 }
 
 function testNprocs (N = 1) {
+  console.log('testing %d procs STARTS NOW', N)
   const procs = []
   for (let k = 0; k < N; k += 1) {
     procs.push(startStop())
