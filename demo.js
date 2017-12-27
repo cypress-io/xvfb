@@ -48,6 +48,7 @@ function testNprocs (N = 1) {
   }
   return Promise.all(procs).then(() => {
     console.log('all %d procs done', N)
+    console.log('******')
   })
 }
 
