@@ -9,11 +9,11 @@ if (debugXvfb.enabled) {
   console.log('XVFB process error stream enabled')
 }
 
-function startStop() {
+function startStop () {
   const xvfb = Promise.promisifyAll(
     new Xvfb({
       timeout: 5000,
-      onStderrData(data) {
+      onStderrData (data) {
         if (debugXvfb.enabled) {
           debugXvfb(data.toString())
         }
@@ -22,7 +22,7 @@ function startStop() {
   )
 
   const retryStart = (i = 0) => {
-    return xvfb.startAsync().catch({ timedOut: true }, e => {
+    return xvfb.startAsync().catch({ timedOut: true }, (e) => {
       console.log('Timed out', e.message)
       if (i < 10) {
         return retryStart(i + 1)
@@ -31,30 +31,38 @@ function startStop() {
     })
   }
 
+  const retryStop = (i = 0) => {
+    return xvfb.stopAsync().catch({ timedOut: true }, (e) => {
+      console.log('Timed out stopping', e.message)
+      if (i < 10) {
+        return retryStop(i + 1)
+      }
+      throw e
+    })
+  }
+
   return retryStart()
-    .catch(err => {
-      console.error('error starting XVFB')
-      console.error(err)
-      process.exit(1)
-    })
-    .then(xvfbProcess => {
-      console.log('XVFB started', xvfbProcess.pid)
-    })
-    .delay(2000)
-    .then(() => {
-      return xvfb.stopAsync()
-    })
-    .then(() => {
-      console.log('xvfb stopped')
-    })
-    .catch(err => {
-      console.error('error stopping XVFB')
-      console.error(err)
-      process.exit(2)
-    })
+  .catch((err) => {
+    console.error('error starting XVFB')
+    console.error(err)
+    process.exit(1)
+  })
+  .then((xvfbProcess) => {
+    console.log('XVFB started', xvfbProcess.pid)
+  })
+  .delay(2000)
+  .then(retryStop)
+  .then(() => {
+    console.log('xvfb stopped')
+  })
+  .catch((err) => {
+    console.error('error stopping XVFB')
+    console.error(err)
+    process.exit(2)
+  })
 }
 
-function testNprocs(N = 1) {
+function testNprocs (N = 1) {
   console.log('testing %d procs STARTS NOW', N)
   const procs = []
   for (let k = 0; k < N; k += 1) {
@@ -70,7 +78,7 @@ Promise.mapSeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], () => testNprocs(1)).then(
   () => {
     console.log('all demo procs finished')
   },
-  err => {
+  (err) => {
     console.error('err', err)
     process.exit(3)
   }
