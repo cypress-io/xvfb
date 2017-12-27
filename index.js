@@ -47,7 +47,7 @@ Xvfb.prototype = {
 
         let totalTime = 0
         ;(function checkIfStarted () {
-          debug('checking if started by looking at the lock file', lockFile)
+          debug('checking if started by looking for the lock file', lockFile)
           fs.exists(lockFile, function (exists) {
             if (didSpawnFail) {
               // When spawn fails, the callback will immediately be called.
@@ -159,7 +159,10 @@ Xvfb.prototype = {
     } else {
       const stderr = []
 
-      self._process = spawn('Xvfb', [display].concat(self._xvfb_args))
+      const allArguments = [display].concat(self._xvfb_args)
+      debug('all Xvfb arguments', allArguments)
+
+      self._process = spawn('Xvfb', allArguments)
       self._process.stderr.on('data', function (data) {
         stderr.push(data.toString())
 

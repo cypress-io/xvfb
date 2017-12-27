@@ -28,7 +28,8 @@ The Xvfb constructor takes four options:
 
 ### Debugging
 
-Run with `DEBUG=xvfb` environment variable to see debug messages
+Run with `DEBUG=xvfb` environment variable to see debug messages. If you want
+to see log messages from the Xvfb process itself, use `DEBUG=xvfb,xvfb-process`.
 
 ### Thanks to
 
