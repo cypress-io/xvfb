@@ -172,7 +172,11 @@ Xvfb.prototype = {
 
       self._process.on('close', (code) => {
         if (code !== 0) {
-          const err = new Error(`${stderr.join('\n')}`)
+          const str = stderr.join('\n')
+          debug('xvfb closed with error code', code)
+          debug('and stderr output')
+          debug(str)
+          const err = new Error(str)
           err.nonZeroExitCode = true
           onError(err)
         }
@@ -180,6 +184,8 @@ Xvfb.prototype = {
 
       // Bind an error listener to prevent an error from crashing node.
       self._process.once('error', function (e) {
+        debug('xvfb spawn process error')
+        debug(e)
         onError(e)
       })
     }
