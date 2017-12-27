@@ -34,10 +34,14 @@ Xvfb.prototype = {
         let didSpawnFail = false
         try {
           self._spawnProcess(exists, function (e) {
+            debug('XVFB spawn failed')
+            debug(e)
             didSpawnFail = true
             if (cb) cb(e)
           })
         } catch (e) {
+          debug('spawn process error')
+          debug(e)
           return cb && cb(e)
         }
 
@@ -48,13 +52,20 @@ Xvfb.prototype = {
             if (didSpawnFail) {
               // When spawn fails, the callback will immediately be called.
               // So we don't have to check whether the lock file exists.
+              debug('while checking for lock file, saw that spawn failed')
               return
             }
             if (exists) {
+              debug('lock file %s found after %d ms', lockFile, totalTime)
               return cb && cb(null, self._process)
             } else {
               totalTime += 10
               if (totalTime > self._timeout) {
+                debug(
+                  'could not start XVFB after %d ms (timeout %d ms)',
+                  totalTime,
+                  self._timeout
+                )
                 return cb && cb(new Error('Could not start Xvfb.'))
               } else {
                 setTimeout(checkIfStarted, 10)
