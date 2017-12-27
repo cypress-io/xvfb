@@ -12,7 +12,7 @@ if (debugXvfb.enabled) {
 function startStop () {
   const xvfb = Promise.promisifyAll(
     new Xvfb({
-      timeout: 5000,
+      timeout: 500,
       onStderrData (data) {
         if (debugXvfb.enabled) {
           debugXvfb(data.toString())
