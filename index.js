@@ -15,7 +15,7 @@ function Xvfb(options) {
   options = options || {}
   this._display = options.displayNum ? `:${options.displayNum}` : null
   this._reuse = options.reuse
-  this._timeout = options.timeout || 2000
+  this._timeout = options.timeout || options.timeOut || 2000
   this._silent = options.silent
   this._onStderrData = options.onStderrData || (() => {})
   this._xvfb_args = options.xvfb_args || []
@@ -134,9 +134,11 @@ Xvfb.prototype = {
   _setDisplayEnvVariable() {
     this._oldDisplay = process.env.DISPLAY
     process.env.DISPLAY = this.display()
+    debug('setting DISPLAY %s', process.env.DISPLAY)
   },
 
   _restoreDisplayEnvVariable() {
+    debug('restoring process.env.DISPLAY variable')
     // https://github.com/cypress-io/xvfb/issues/1
     // only reset truthy backed' up values
     if (this._oldDisplay) {
@@ -210,7 +212,9 @@ Xvfb.prototype = {
       this.display()
         .toString()
         .replace(/^:/, '')
-    return `/tmp/.X${displayNum}-lock`
+    const filename = `/tmp/.X${displayNum}-lock`
+    debug('lock filename %s', filename)
+    return filename
   },
 }
 
