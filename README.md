@@ -9,7 +9,8 @@
 
 ```javascript
 var Xvfb = require('xvfb');
-var xvfb = new Xvfb();
+var options = {}; // optional
+var xvfb = new Xvfb(options);
 xvfb.start(function(err, xvfbProcess) {
   // code that uses the virtual frame buffer here
   xvfb.stop(function(err) {
@@ -22,9 +23,10 @@ The Xvfb constructor takes four options:
 
 * <code>displayNum</code> - the X display to use, defaults to the lowest unused display number >= 99 if <code>reuse</code> is false or 99 if <code>reuse</code> is true.
 * <code>reuse</code> - whether to reuse an existing Xvfb instance if it already exists on the X display referenced by displayNum.
-* <code>timeout</code> - number of milliseconds to wait when starting Xvfb before assuming it failed to start, defaults to 500.
+* <code>timeout</code> - number of milliseconds to wait when starting Xvfb before assuming it failed to start, defaults to 2000.
 * <code>silent</code> - don't pipe Xvfb stderr to the process's stderr.
 * <code>xvfb_args</code> - Extra arguments to pass to `Xvfb`.
+* <code>onStderrData</code> - Function to receive `stderr` output
 
 ### Debugging
 
