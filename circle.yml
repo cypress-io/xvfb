@@ -17,3 +17,9 @@ jobs:
       # TODO switch to semantic-release-cli that will check branch before publishing
       # not every commit is going to be published
       # - run: npm run semantic-release || true
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build
