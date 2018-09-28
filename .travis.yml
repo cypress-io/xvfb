@@ -1,13 +1,15 @@
 language: node_js
 node_js:
-- 6.5.0
+- 10
 
 cache:
   directories:
-    - node_modules
+    - ~/.npm
 
 # common build steps
 defaults: &defaults
+  install:
+    - npm ci
   script:
     - npm run demo
 
