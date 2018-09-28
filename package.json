@@ -33,6 +33,7 @@
     "eslint": "^4.13.1",
     "eslint-plugin-cypress-dev": "^1.1.2",
     "eslint-plugin-mocha": "^4.11.0",
+    "husky": "1.0.1",
     "mocha": "^3.5.0",
     "npm-utils": "^2.0.0",
     "pre-git": "^3.15.0",
@@ -43,16 +44,9 @@
     "verifyConditions": "condition-circle",
     "analyzeCommits": "simple-commit-message"
   },
-  "config": {
-    "pre-git": {
-      "commit-msg": "simple",
-      "pre-commit": [
-        "npm test"
-      ],
-      "pre-push": [],
-      "post-commit": [],
-      "post-checkout": [],
-      "post-merge": []
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
     }
   }
 }
