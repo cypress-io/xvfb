@@ -29,7 +29,8 @@
     "test-watch": "mocha watch",
     "semantic-release": "semantic-release",
     "commit": "commit-wizard",
-    "demo": "node ./demo"
+    "demo": "node ./demo",
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
@@ -55,7 +56,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test"
+      "pre-commit": "npm test",
+      "pre-push": "npm run size"
     }
   }
 }
