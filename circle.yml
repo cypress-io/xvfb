@@ -14,6 +14,8 @@ jobs:
           paths:
             - ~/.npm
       - run: npm test
+      # show files that will be part of the NPM package
+      - run: npm run size
       # not every commit is going to be published
       - run: npm run semantic-release
 
