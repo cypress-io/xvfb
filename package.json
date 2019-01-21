@@ -39,7 +39,7 @@
     "eslint-plugin-cypress-dev": "1.1.2",
     "eslint-plugin-mocha": "4.12.1",
     "husky": "1.0.1",
-    "mocha": "3.5.3",
+    "mocha": "5.2.0",
     "npm-utils": "2.0.3",
     "semantic-release": "15.9.16"
   },
