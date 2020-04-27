@@ -35,7 +35,7 @@
   "devDependencies": {
     "bluebird": "3.5.1",
     "chai": "4.1.2",
-    "eslint": "4.19.1",
+    "eslint": "6.8.0",
     "eslint-plugin-cypress-dev": "1.1.2",
     "eslint-plugin-mocha": "4.12.1",
     "husky": "1.0.1",
