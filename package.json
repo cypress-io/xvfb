@@ -41,7 +41,7 @@
     "husky": "1.0.1",
     "mocha": "3.5.3",
     "npm-utils": "2.0.3",
-    "semantic-release": "15.9.16"
+    "semantic-release": "15.14.0"
   },
   "release": {
     "analyzeCommits": {
