@@ -33,7 +33,7 @@
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";"
   },
   "devDependencies": {
-    "bluebird": "3.5.1",
+    "bluebird": "3.7.2",
     "chai": "4.1.2",
     "eslint": "4.19.1",
     "eslint-plugin-cypress-dev": "1.1.2",
