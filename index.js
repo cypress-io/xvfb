@@ -4,7 +4,6 @@
 
 // our debug log messages
 const debug = require('debug')('xvfb')
-const once = require('lodash.once')
 const fs = require('fs')
 const path = require('path')
 const spawn = require('child_process').spawn
@@ -34,9 +33,11 @@ Xvfb.prototype = {
         let didSpawnFail = false
         try {
           self._spawnProcess(exists, function(e) {
+            // if we've already errored, noop
+            if (didSpawnFail) return
+            didSpawnFail = true
             debug('XVFB spawn failed')
             debug(e)
-            didSpawnFail = true
             if (cb) cb(e)
           })
         } catch (e) {
@@ -153,7 +154,7 @@ Xvfb.prototype = {
   _spawnProcess(lockFileExists, onAsyncSpawnError) {
     let self = this
 
-    const onError = once(onAsyncSpawnError)
+    const onError = onAsyncSpawnError
 
     let display = self.display()
     if (lockFileExists) {

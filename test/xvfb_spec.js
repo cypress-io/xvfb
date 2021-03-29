@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-
+const sinon = require('sinon')
 const Xvfb = require('../')
 
 describe('xvfb', function () {
@@ -35,6 +35,30 @@ describe('xvfb', function () {
       this.xvfb._restoreDisplayEnvVariable()
 
       expect(process.env.DISPLAY).to.be.undefined
+    })
+  })
+
+  context('errors', () => {
+    let xvfb
+    it('logs error only once', (done) => {
+      const stub = sinon.stub()
+      .callsFake(() => {
+        // first call for initial process start
+        // second call for error
+        // no third call, since onError should only be called once
+        stub.callsFake(() => {
+          expect(stub.callCount, 'onError should only call the cb once').eq(2)
+          done()
+        })
+        xvfb._process.emit('close', 999)
+        xvfb._process.emit('close', 999)
+      })
+
+      xvfb = new Xvfb()
+      xvfb.start(stub)
+    })
+    afterEach(() => {
+      xvfb.stop()
     })
   })
 })
