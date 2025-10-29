@@ -23,4 +23,5 @@ workflows:
   version: 2
   test:
     jobs:
-      - build
+      - build:
+          context: org-npm-credentials
