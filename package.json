@@ -16,7 +16,7 @@
     "url": "https://github.com/cypress-io/xvfb.git"
   },
   "dependencies": {
-    "debug": "4.3.1"
+    "debug": "4.3.4"
   },
   "main": "index.js",
   "files": [
