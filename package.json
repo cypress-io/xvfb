@@ -40,7 +40,7 @@
     "husky": "1.0.1",
     "mocha": "8.3.2",
     "npm-utils": "2.0.3",
-    "semantic-release": "17.3.8",
+    "semantic-release": "17.4.7",
     "sinon": "10.0.0"
   },
   "release": {
